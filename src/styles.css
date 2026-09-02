@@ -1,0 +1,920 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap");
+
+:root {
+  color: #f4f4ef;
+  background: #050505;
+  font-family: "DM Sans", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #050505;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+a {
+  color: inherit;
+}
+
+.showcase {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #050505;
+}
+
+.showcase::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgb(5 5 5 / 42%), transparent 35%, transparent 72%, rgb(5 5 5 / 22%)),
+    linear-gradient(0deg, rgb(5 5 5 / 65%), transparent 28%, transparent 78%, rgb(5 5 5 / 35%));
+  pointer-events: none;
+  content: "";
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+  cursor: grab;
+}
+
+.scene canvas:active {
+  cursor: grabbing;
+}
+
+.showcase-header {
+  position: absolute;
+  top: clamp(18px, 3vw, 42px);
+  right: clamp(20px, 4vw, 60px);
+  left: clamp(20px, 4vw, 60px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.brand-logo {
+  position: relative;
+  display: block;
+  width: 174px;
+  height: 58px;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.brand-logo img {
+  position: absolute;
+  top: -64px;
+  left: 0;
+  display: block;
+  width: 174px;
+  max-width: none;
+  height: 174px;
+  object-fit: contain;
+  filter: invert(1) contrast(1.2);
+}
+
+.view-switch,
+.interaction-hint {
+  margin: 0;
+  color: rgb(244 244 239 / 68%);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.view-switch {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.view-switch span {
+  color: #f4f4ef;
+}
+
+.view-switch i {
+  color: #667057;
+  font-style: normal;
+}
+
+.view-switch button,
+.menu-button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.view-switch button {
+  padding: 0;
+  background: transparent;
+  color: rgb(244 244 239 / 40%);
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: #f3f3ef;
+  color: #11120f;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  pointer-events: auto;
+}
+
+.menu-button i {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 7px;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.interaction-hint {
+  position: absolute;
+  bottom: clamp(24px, 3vw, 42px);
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hint-line {
+  display: block;
+  width: 42px;
+  height: 1px;
+  overflow: hidden;
+  background: rgb(244 244 239 / 24%);
+}
+
+.hint-line::after {
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: #aab79a;
+  animation: hint-slide 2.2s ease-in-out infinite;
+  content: "";
+}
+
+.instagram-card {
+  position: absolute;
+  bottom: clamp(18px, 2.5vw, 34px);
+  left: clamp(18px, 2.5vw, 34px);
+  z-index: 2;
+  display: flex;
+  width: 270px;
+  min-height: 103px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 15px 18px;
+  border: 1px solid rgb(244 244 239 / 16%);
+  border-radius: 19px;
+  background: rgb(12 13 11 / 88%);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 28%);
+  color: #f4f4ef;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  transition: border-color 220ms ease, background-color 220ms ease, transform 220ms ease;
+}
+
+.instagram-card:hover {
+  border-color: rgb(139 153 113 / 48%);
+  background: rgb(18 20 16 / 94%);
+  transform: translateY(-2px);
+}
+
+.instagram-card:focus-visible {
+  outline: 2px solid #788665;
+  outline-offset: 3px;
+}
+
+.instagram-avatar {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.instagram-profile {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+}
+
+.instagram-profile > strong {
+  color: #f4f4ef;
+  font-size: 1rem;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.instagram-name {
+  margin-top: 3px;
+  color: rgb(244 244 239 / 54%);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.instagram-stats {
+  display: flex;
+  gap: 19px;
+  margin-top: 15px;
+  color: rgb(244 244 239 / 82%);
+  font-size: 0.78rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.instagram-stats b {
+  color: #f4f4ef;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.instagram-cta {
+  display: grid;
+  width: 100%;
+  max-height: 0;
+  margin-top: -13px;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 12px;
+  background: #f4f4f2;
+  color: #0c0c0b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    max-height 260ms ease,
+    margin-top 260ms ease,
+    padding 260ms ease,
+    opacity 180ms ease,
+    transform 260ms ease;
+}
+
+.instagram-card:hover .instagram-cta,
+.instagram-card:focus-visible .instagram-cta {
+  max-height: 52px;
+  margin-top: 1px;
+  padding: 16px 12px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: clamp(16px, 2vw, 34px);
+  background: rgb(0 0 0 / 48%);
+  backdrop-filter: blur(5px);
+  animation: menu-backdrop-in 240ms ease both;
+}
+
+.menu-panel {
+  position: relative;
+  width: min(580px, 100%);
+  height: min(520px, calc(100dvh - 68px));
+  overflow: hidden;
+  padding: 44px 46px;
+  border-radius: 36px;
+  background: #f4f4f2;
+  color: #080908;
+  box-shadow: 0 28px 80px rgb(0 0 0 / 34%);
+  animation: menu-panel-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.menu-close {
+  position: absolute;
+  top: 38px;
+  right: 44px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #080908;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.menu-close i {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+}
+
+.menu-close i::before,
+.menu-close i::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.menu-close i::before {
+  transform: rotate(45deg);
+}
+
+.menu-close i::after {
+  transform: rotate(-45deg);
+}
+
+.menu-navigation {
+  display: grid;
+  align-content: start;
+  height: auto;
+  margin-top: 92px;
+}
+
+.menu-navigation a {
+  width: max-content;
+  color: #b6b6b6;
+  font-size: clamp(3.4rem, 4vw, 4.6rem);
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: -0.065em;
+  text-decoration: none;
+  transition: color 180ms ease, transform 220ms ease;
+}
+
+.menu-navigation a:hover,
+.menu-navigation a:focus-visible,
+.menu-navigation a.is-active {
+  color: #080908;
+}
+
+.menu-navigation a:hover,
+.menu-navigation a:focus-visible {
+  transform: translateX(10px);
+}
+
+.menu-navigation a:focus-visible,
+.menu-close:focus-visible,
+.menu-social:focus-visible {
+  outline: 2px solid #657052;
+  outline-offset: 4px;
+}
+
+.menu-footer {
+  position: absolute;
+  right: 46px;
+  bottom: 34px;
+  left: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 25px;
+  border-top: 1px solid #d3d3d0;
+  color: #50514f;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.menu-social {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: #080908;
+  color: #fff;
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.menu-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-social svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.instagram-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.instagram-icon-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+.linkedin-icon {
+  fill: currentColor;
+}
+
+.menu-social:hover {
+  background: #59634a;
+  transform: rotate(-6deg);
+}
+
+.menu-email {
+  color: inherit;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.menu-email:hover,
+.menu-email:focus-visible {
+  color: #080908;
+}
+
+.content-page {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: auto;
+  background:
+    radial-gradient(circle at 78% 24%, rgb(97 109 74 / 23%), transparent 31%),
+    #050505;
+  color: #f4f4ef;
+}
+
+.content-page::before {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 3.5%) 1px, transparent 1px);
+  background-size: 12vw 12vw;
+  mask-image: linear-gradient(to bottom, #000, transparent 82%);
+  pointer-events: none;
+  content: "";
+}
+
+.content-page .showcase-header {
+  position: fixed;
+}
+
+.about-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: clamp(135px, 17vh, 190px) clamp(28px, 7vw, 110px) clamp(140px, 17vh, 185px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(110px);
+  transition:
+    opacity 220ms ease,
+    transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-page.is-about .about-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity 330ms ease 420ms,
+    transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: clamp(135px, 17vh, 190px) clamp(28px, 7vw, 110px) clamp(140px, 17vh, 185px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(110px);
+  transition:
+    opacity 220ms ease,
+    transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-page.is-contact .contact-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity 330ms ease 420ms,
+    transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-page .interaction-hint,
+.studio-page .view-switch {
+  transition:
+    opacity 850ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 850ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.studio-page:not(.is-works) .interaction-hint {
+  opacity: 0;
+  transform: translate(-50%, -18px);
+}
+
+.studio-page:not(.is-works) .view-switch {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -14px);
+}
+
+.about-copy,
+.contact-copy {
+  width: min(1080px, 100%);
+  text-align: center;
+}
+
+.about-copy h1,
+.about-copy p,
+.contact-copy h1,
+.contact-copy p {
+  margin: 0;
+  color: #f4f4ef;
+  font-size: clamp(1.45rem, 2.05vw, 2.45rem);
+  font-weight: 500;
+  line-height: 1.47;
+  letter-spacing: -0.035em;
+}
+
+.about-copy p,
+.contact-copy p {
+  margin-top: clamp(30px, 4.5vh, 50px);
+}
+
+.instagram-inline,
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05em 0.48em 0.08em;
+  border: 1px solid rgb(244 244 239 / 28%);
+  border-radius: 999px;
+  background: rgb(244 244 239 / 10%);
+  color: #f4f4ef;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.instagram-inline:hover,
+.instagram-inline:focus-visible,
+.contact-email:hover,
+.contact-email:focus-visible {
+  border-color: #8e9c78;
+  background: rgb(102 115 82 / 35%);
+}
+
+.page-shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(1500px, 100%);
+  min-height: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(150px, 18vh, 210px) clamp(24px, 7vw, 108px) clamp(110px, 13vh, 150px);
+}
+
+.page-kicker {
+  margin: 0 0 clamp(24px, 4vw, 48px);
+  color: #a9b598;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.page-shell h1 {
+  max-width: 1220px;
+  margin: 0;
+  font-size: clamp(3.6rem, 8.5vw, 8.5rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+}
+
+.about-grid,
+.contact-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: clamp(48px, 9vw, 150px);
+  margin-top: clamp(70px, 11vh, 130px);
+  padding-top: 28px;
+  border-top: 1px solid rgb(244 244 239 / 18%);
+}
+
+.page-intro,
+.contact-row > p {
+  max-width: 650px;
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 2.15rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+
+.about-details {
+  display: grid;
+  align-content: space-between;
+  gap: 34px;
+}
+
+.about-details p,
+.contact-row > p {
+  color: rgb(244 244 239 / 64%);
+}
+
+.about-details p {
+  max-width: 450px;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.text-link {
+  width: max-content;
+  color: #f4f4ef;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.text-link span {
+  margin-left: 10px;
+  color: #a9b598;
+}
+
+.contact-button {
+  display: flex;
+  align-items: center;
+  align-self: start;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 21px 24px;
+  border-radius: 999px;
+  background: #f4f4ef;
+  color: #0b0c0a;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.contact-button:hover {
+  background: #aebc98;
+  transform: translateY(-3px);
+}
+
+.contact-button i {
+  font-size: 1.2rem;
+  font-style: normal;
+}
+
+.page-index {
+  position: fixed;
+  right: clamp(20px, 4vw, 60px);
+  bottom: clamp(20px, 3vw, 42px);
+  color: rgb(244 244 239 / 35%);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+@keyframes menu-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes menu-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hint-slide {
+  0%,
+  100% {
+    transform: translateX(-110%);
+  }
+  50% {
+    transform: translateX(210%);
+  }
+}
+
+@media (max-width: 720px) {
+  .brand-logo {
+    width: 142px;
+    height: 50px;
+  }
+
+  .brand-logo img {
+    top: -52px;
+    width: 142px;
+    height: 142px;
+  }
+
+  .view-switch,
+  .interaction-hint {
+    display: none;
+  }
+
+  .menu-button {
+    padding: 8px 13px;
+  }
+
+  .instagram-card {
+    bottom: 16px;
+    left: 16px;
+    width: 232px;
+    min-height: 88px;
+    gap: 11px;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .instagram-avatar {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .instagram-profile > strong {
+    font-size: 0.9rem;
+  }
+
+  .instagram-name,
+  .instagram-stats {
+    font-size: 0.7rem;
+  }
+
+  .instagram-stats {
+    gap: 13px;
+    margin-top: 12px;
+  }
+
+  .instagram-stats b {
+    font-size: 0.8rem;
+  }
+
+  .menu-overlay {
+    padding: 10px;
+  }
+
+  .menu-panel {
+    width: 100%;
+    height: min(500px, calc(100dvh - 20px));
+    padding: 28px;
+    border-radius: 28px;
+  }
+
+  .menu-close {
+    top: 24px;
+    right: 24px;
+    gap: 13px;
+    padding: 13px 20px;
+    font-size: 0.95rem;
+  }
+
+  .menu-close i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .menu-navigation {
+    height: auto;
+    margin-top: 88px;
+  }
+
+  .menu-navigation a {
+    font-size: clamp(3rem, 14vw, 4.2rem);
+  }
+
+  .menu-footer {
+    right: 28px;
+    bottom: 28px;
+    left: 28px;
+    padding-top: 22px;
+    font-size: 1rem;
+  }
+
+  .menu-social {
+    width: 52px;
+    height: 52px;
+    font-size: 0.9rem;
+  }
+
+  .page-shell {
+    min-height: 100dvh;
+    justify-content: flex-start;
+    padding: 145px 24px 100px;
+  }
+
+  .page-shell h1 {
+    font-size: clamp(3.25rem, 16vw, 5rem);
+  }
+
+  .about-grid,
+  .contact-row {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    margin-top: 64px;
+  }
+
+  .page-index {
+    display: none;
+  }
+
+  .about-content {
+    padding: 125px 22px 150px;
+  }
+
+  .contact-content {
+    padding: 125px 22px 150px;
+  }
+
+  .about-copy h1,
+  .about-copy p,
+  .contact-copy h1,
+  .contact-copy p {
+    font-size: clamp(1.15rem, 5.3vw, 1.45rem);
+    line-height: 1.42;
+  }
+
+  .about-copy p,
+  .contact-copy p {
+    margin-top: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint-line::after {
+    animation: none;
+  }
+
+  .menu-overlay,
+  .menu-panel {
+    animation: none;
+  }
+}
