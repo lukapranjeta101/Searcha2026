@@ -12,6 +12,8 @@ function getPageFromHash() {
 function App() {
   const [activePage, setActivePage] = useState(getPageFromHash);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [leavingIntro, setLeavingIntro] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -29,6 +31,11 @@ function App() {
 
   const openMenu = () => setMenuOpen(true);
 
+  const enterSite = () => {
+    setLeavingIntro(true);
+    window.setTimeout(() => setShowIntro(false), 650);
+  };
+
   return (
     <>
       <WorksPage activePage={activePage} onOpenMenu={openMenu} />
@@ -38,6 +45,28 @@ function App() {
         activePage={activePage}
         onClose={() => setMenuOpen(false)}
       />
+
+      {showIntro && (
+        <section
+          className={`site-intro${leavingIntro ? " is-leaving" : ""}`}
+          aria-label="Searcha introduction"
+        >
+          <div className="site-intro-content">
+            <video
+              className="site-intro-video"
+              src="./assets/logovideo-intro.mp4"
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            />
+            <button className="site-intro-enter" type="button" onClick={enterSite}>
+              Enter site
+            </button>
+          </div>
+        </section>
+      )}
     </>
   );
 }

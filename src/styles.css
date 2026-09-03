@@ -31,6 +31,71 @@ a {
   color: inherit;
 }
 
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #000;
+  opacity: 1;
+  transition: opacity 650ms ease;
+}
+
+.site-intro.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-intro-content {
+  display: flex;
+  width: min(82vw, 720px);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3vh, 32px);
+}
+
+.site-intro-video {
+  display: block;
+  width: 100%;
+  max-height: 64vh;
+  object-fit: contain;
+}
+
+.site-intro-enter {
+  padding: 4px 2px;
+  border: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 45%);
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 180ms ease, opacity 180ms ease;
+}
+
+.site-intro-enter:hover {
+  border-color: #fff;
+}
+
+.site-intro-enter:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 7px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-intro {
+    transition-duration: 0ms;
+  }
+
+  .site-intro-video {
+    display: none;
+  }
+}
+
 .showcase {
   position: relative;
   width: 100%;
