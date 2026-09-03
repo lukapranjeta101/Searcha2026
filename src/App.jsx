@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { LeadFormDialog } from "./components/LeadFormDialog";
 import { SiteMenu } from "./components/SiteMenu";
 import { WorksPage } from "./pages/WorksPage";
 
@@ -12,6 +13,7 @@ function getPageFromHash() {
 function App() {
   const [activePage, setActivePage] = useState("works");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [leavingIntro, setLeavingIntro] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
@@ -45,13 +47,19 @@ function App() {
 
   return (
     <>
-      <WorksPage activePage={activePage} onOpenMenu={openMenu} />
+      <WorksPage
+        activePage={activePage}
+        onOpenMenu={openMenu}
+        onOpenContact={() => setContactOpen(true)}
+      />
 
       <SiteMenu
         open={menuOpen}
         activePage={activePage}
         onClose={() => setMenuOpen(false)}
       />
+
+      <LeadFormDialog open={contactOpen} onClose={() => setContactOpen(false)} />
 
       {showIntro && (
         <section

@@ -4,7 +4,7 @@ import { PortfolioScene } from "../components/PortfolioScene";
 import { SiteHeader } from "../components/SiteHeader";
 import { InstagramCard } from "../components/InstagramCard";
 
-export function WorksPage({ activePage, onOpenMenu }) {
+export function WorksPage({ activePage, onOpenMenu, onOpenContact }) {
   const showingWorks = activePage === "works";
   const showingAbout = activePage === "about";
   const showingContact = activePage === "contact";
@@ -20,7 +20,7 @@ export function WorksPage({ activePage, onOpenMenu }) {
       </div>
 
       <AboutContent visible={showingAbout} />
-      <ContactContent visible={showingContact} />
+      <ContactContent visible={showingContact} onOpenForm={onOpenContact} />
       <InstagramCard />
     </main>
   );

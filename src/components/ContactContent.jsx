@@ -1,4 +1,4 @@
-export function ContactContent({ visible }) {
+export function ContactContent({ visible, onOpenForm }) {
   return (
     <section className="contact-content" aria-labelledby="contact-heading" aria-hidden={!visible}>
       <div className="contact-copy">
@@ -8,10 +8,10 @@ export function ContactContent({ visible }) {
         </h1>
         <p>
           Tell me about your business, your goals, and where you want the website to take you.
-          Start a conversation at{" "}
-          <a className="contact-email" href="mailto:lukapranjeta18@gmail.com">
-            lukapranjeta18@gmail.com
-          </a>
+          Answer four quick questions and I’ll get back to you. {" "}
+          <button className="contact-email" type="button" onClick={onOpenForm}>
+            Start a project
+          </button>
           .
         </p>
       </div>
