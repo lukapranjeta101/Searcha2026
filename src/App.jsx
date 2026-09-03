@@ -53,6 +53,19 @@ function App() {
         onOpenContact={() => setContactOpen(true)}
       />
 
+      {!showIntro && !contactOpen && (
+        <button
+          className="floating-contact"
+          type="button"
+          onClick={() => setContactOpen(true)}
+          aria-label="Open contact form"
+        >
+          <span className="floating-contact-dot" aria-hidden="true" />
+          <span>Let’s talk</span>
+          <span className="floating-contact-arrow" aria-hidden="true">↗</span>
+        </button>
+      )}
+
       <SiteMenu
         open={menuOpen}
         activePage={activePage}

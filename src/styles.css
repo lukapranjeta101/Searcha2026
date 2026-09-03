@@ -94,9 +94,78 @@ a {
   outline-offset: 7px;
 }
 
+.floating-contact {
+  position: fixed;
+  right: clamp(18px, 2.5vw, 34px);
+  bottom: clamp(18px, 2.5vw, 34px);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid rgb(244 244 239 / 18%);
+  border-radius: 999px;
+  background: rgb(10 11 9 / 78%);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 20%);
+  color: #f4f4ef;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+  animation: floating-contact-in 500ms ease both;
+}
+
+.floating-contact:hover {
+  border-color: rgb(174 188 152 / 55%);
+  background: rgb(18 20 16 / 92%);
+  transform: translateY(-2px);
+}
+
+.floating-contact:focus-visible {
+  outline: 2px solid #aebc98;
+  outline-offset: 4px;
+}
+
+.floating-contact-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #aebc98;
+  box-shadow: 0 0 0 4px rgb(174 188 152 / 10%);
+}
+
+.floating-contact-arrow {
+  margin-left: 2px;
+  color: rgb(244 244 239 / 55%);
+  font-size: 0.9rem;
+  transition: transform 200ms ease;
+}
+
+.floating-contact:hover .floating-contact-arrow {
+  transform: translate(2px, -2px);
+}
+
+@keyframes floating-contact-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-intro {
     transition-duration: 0ms;
+  }
+
+  .floating-contact {
+    animation: none;
   }
 }
 
