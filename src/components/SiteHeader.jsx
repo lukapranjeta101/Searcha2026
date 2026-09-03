@@ -7,7 +7,7 @@ export function SiteHeader({ onOpenMenu, showViewSwitch = false }) {
 
       {showViewSwitch && (
         <div className="view-switch" aria-label="Current gallery view">
-          <span>Spiral</span>
+          <span>My Work</span>
         </div>
       )}
 
