@@ -49,7 +49,7 @@ a {
 
 .site-intro-content {
   display: flex;
-  width: min(82vw, 720px);
+  width: min(70vw, 520px);
   flex-direction: column;
   align-items: center;
   gap: clamp(18px, 3vh, 32px);
