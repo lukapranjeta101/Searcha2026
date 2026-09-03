@@ -55,6 +55,7 @@ function App() {
             <video
               className="site-intro-video"
               src="./assets/logovideo-intro.mp4"
+              poster="./assets/logovideo-poster.jpg"
               autoPlay
               muted
               playsInline

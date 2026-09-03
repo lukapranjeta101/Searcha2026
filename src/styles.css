@@ -90,10 +90,6 @@ a {
   .site-intro {
     transition-duration: 0ms;
   }
-
-  .site-intro-video {
-    display: none;
-  }
 }
 
 .showcase {
