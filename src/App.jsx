@@ -10,13 +10,19 @@ function getPageFromHash() {
 }
 
 function App() {
-  const [activePage, setActivePage] = useState(getPageFromHash);
+  const [activePage, setActivePage] = useState("works");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [leavingIntro, setLeavingIntro] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
 
   useEffect(() => {
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}${window.location.search}#works`,
+    );
+
     const handleHashChange = () => {
       setActivePage(getPageFromHash());
       window.scrollTo(0, 0);
