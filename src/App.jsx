@@ -14,6 +14,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [leavingIntro, setLeavingIntro] = useState(false);
+  const [showEnter, setShowEnter] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -60,9 +61,19 @@ function App() {
               muted
               playsInline
               preload="auto"
+              onTimeUpdate={(event) => {
+                if (event.currentTarget.currentTime >= 1.5) setShowEnter(true);
+              }}
+              onEnded={() => setShowEnter(true)}
+              onError={() => setShowEnter(true)}
               aria-hidden="true"
             />
-            <button className="site-intro-enter" type="button" onClick={enterSite}>
+            <button
+              className={`site-intro-enter${showEnter ? " is-visible" : ""}`}
+              type="button"
+              onClick={enterSite}
+              tabIndex={showEnter ? 0 : -1}
+            >
               Enter site
             </button>
           </div>
