@@ -1216,6 +1216,79 @@ button.contact-email {
   transition-delay: calc(var(--index) * 55ms);
 }
 
+.reveal-word {
+  display: inline-flex;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  vertical-align: bottom;
+}
+
+.reveal-word > span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(108%) rotate(1.5deg);
+  transform-origin: left bottom;
+  transition:
+    opacity 520ms ease,
+    filter 620ms ease,
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(35ms + var(--word-index) * 28ms);
+}
+
+.reveal-words.is-visible .reveal-word > span {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) rotate(0);
+}
+
+.impact-stat dt {
+  opacity: 0.25;
+  transform: translateY(0.16em) scale(0.92);
+  transform-origin: left bottom;
+  transition:
+    opacity 650ms ease,
+    transform 950ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.impact-stat.is-visible dt {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.impact-process li {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 550ms ease,
+    transform 750ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.impact-process.is-visible li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.impact-process.is-visible li:nth-child(1) { transition-delay: 180ms; }
+.impact-process.is-visible li:nth-child(2) { transition-delay: 330ms; }
+.impact-process.is-visible li:nth-child(3) { transition-delay: 480ms; }
+.impact-process.is-visible li:nth-child(4) { transition-delay: 630ms; }
+
+.impact-growth-path li {
+  opacity: 0;
+  transform: translateX(-18px);
+  transition:
+    opacity 500ms ease,
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(120ms + var(--path-index) * 150ms);
+}
+
+.impact-growth-path.is-visible li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .lead-form-overlay {
   position: fixed;
   inset: 0;
@@ -1949,6 +2022,16 @@ button.contact-email {
 
   [data-reveal] {
     opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal-word > span,
+  .impact-stat dt,
+  .impact-process li,
+  .impact-growth-path li {
+    opacity: 1;
+    filter: none;
     transform: none;
     transition: none;
   }

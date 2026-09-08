@@ -73,13 +73,40 @@ const capabilities = [
 
 const growthSteps = ["Views", "Clicks", "Calls", "Customers", "Growth"];
 
+function RevealText({ as: Tag = "h2", text, className, id }) {
+  const tokens = text.split(/(\s+)/);
+
+  return (
+    <Tag
+      className={["reveal-words", className].filter(Boolean).join(" ")}
+      id={id}
+      aria-label={text.replace(/\s+/g, " ").trim()}
+      data-reveal
+    >
+      {tokens.map((token, index) => {
+        if (token.includes("\n")) return <br aria-hidden="true" key={`break-${index}`} />;
+        if (/^\s+$/.test(token)) return " ";
+
+        return (
+          <span className="reveal-word" aria-hidden="true" key={`${token}-${index}`}>
+            <span style={{ "--word-index": index }}>{token}</span>
+          </span>
+        );
+      })}
+    </Tag>
+  );
+}
+
 export function ImpactContent({ visible }) {
   const contentRef = useRef(null);
 
   useEffect(() => {
     if (!visible || !contentRef.current) return undefined;
 
+    const scrollContainer = contentRef.current.closest(".showcase");
     const elements = contentRef.current.querySelectorAll("[data-reveal]");
+    elements.forEach((element) => element.classList.remove("is-visible"));
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -89,11 +116,48 @@ export function ImpactContent({ visible }) {
           }
         });
       },
-      { threshold: 0.14, rootMargin: "0px 0px -8%" },
+      {
+        root: scrollContainer,
+        threshold: 0.05,
+        rootMargin: "0px 0px -12% 0px",
+      },
     );
 
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+    let animationFrame;
+    const revealFromScrollPosition = () => {
+      animationFrame = undefined;
+      const rootBounds = scrollContainer?.getBoundingClientRect();
+      if (!rootBounds) return;
+
+      const triggerPoint = rootBounds.top + rootBounds.height * 0.88;
+      elements.forEach((element) => {
+        if (element.classList.contains("is-visible")) return;
+        const bounds = element.getBoundingClientRect();
+        if (bounds.top <= triggerPoint && bounds.bottom >= rootBounds.top) {
+          element.classList.add("is-visible");
+          observer.unobserve(element);
+        }
+      });
+    };
+
+    const handleScroll = () => {
+      if (!animationFrame) animationFrame = window.requestAnimationFrame(revealFromScrollPosition);
+    };
+
+    const setupFrame = window.requestAnimationFrame(() => {
+      elements.forEach((element) => observer.observe(element));
+      revealFromScrollPosition();
+    });
+
+    scrollContainer?.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      scrollContainer?.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(setupFrame);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      elements.forEach((element) => element.classList.remove("is-visible"));
+    };
   }, [visible]);
 
   return (
@@ -105,7 +169,11 @@ export function ImpactContent({ visible }) {
     >
       <section className="impact-hero impact-section">
         <p className="impact-eyebrow" data-reveal>THE IMPACT</p>
-        <h1 id="impact-heading" data-reveal>A great website should do more than look good.</h1>
+        <RevealText
+          as="h1"
+          id="impact-heading"
+          text="A great website should do more than look good."
+        />
         <p className="impact-lede" data-reveal>
           Searcha builds digital experiences designed to get businesses noticed, build trust, and
           turn attention into real opportunities.
@@ -123,9 +191,10 @@ export function ImpactContent({ visible }) {
 
       <section className="impact-section impact-case-study" aria-labelledby="case-study-heading">
         <p className="impact-eyebrow" data-reveal>ONE PROJECT. REAL RESULTS.</p>
-        <h2 id="case-study-heading" data-reveal>
-          Turning an online presence into {impactResults.revenueShort} in business.
-        </h2>
+        <RevealText
+          id="case-study-heading"
+          text={`Turning an online presence into ${impactResults.revenueShort} in business.`}
+        />
         <div className="impact-case-copy" data-reveal>
           <p>
             Mike&apos;s Handyman already did great work. The problem wasn&apos;t the service — it was
@@ -156,9 +225,10 @@ export function ImpactContent({ visible }) {
 
       <section className="impact-section impact-visibility" aria-labelledby="visibility-heading">
         <p className="impact-eyebrow" data-reveal>BEING GOOD ISN&apos;T ENOUGH IF NOBODY SEES YOU.</p>
-        <h2 id="visibility-heading" data-reveal>
-          We don&apos;t just build the destination.<br />We help people find it.
-        </h2>
+        <RevealText
+          id="visibility-heading"
+          text={"We don't just build the destination.\nWe help people find it."}
+        />
         <p className="impact-body-copy" data-reveal>
           A website is only valuable when the right people reach it.<br /><br />
           Searcha thinks beyond the screen — combining web design, development, search visibility,
@@ -173,7 +243,7 @@ export function ImpactContent({ visible }) {
       </section>
 
       <section className="impact-section impact-capabilities" aria-labelledby="capabilities-heading">
-        <h2 id="capabilities-heading" data-reveal>Design is only one part of the equation.</h2>
+        <RevealText id="capabilities-heading" text="Design is only one part of the equation." />
         <ol>
           {capabilities.map((capability, index) => (
             <li data-reveal key={capability.name}>
@@ -187,12 +257,19 @@ export function ImpactContent({ visible }) {
 
       <section className="impact-section impact-philosophy" aria-labelledby="philosophy-heading">
         <p className="impact-eyebrow" data-reveal>OUR APPROACH</p>
-        <h2 id="philosophy-heading" data-reveal>
-          We don&apos;t measure a website by how many people say it looks cool.
-        </h2>
-        <p className="impact-next" data-reveal>We measure it by what happens next.</p>
+        <RevealText
+          id="philosophy-heading"
+          text="We don't measure a website by how many people say it looks cool."
+        />
+        <RevealText
+          as="p"
+          className="impact-next"
+          text="We measure it by what happens next."
+        />
         <ol className="impact-growth-path" aria-label="Views to business growth" data-reveal>
-          {growthSteps.map((step) => <li key={step}>{step}</li>)}
+          {growthSteps.map((step, index) => (
+            <li key={step} style={{ "--path-index": index }}>{step}</li>
+          ))}
         </ol>
         <p className="impact-closing" data-reveal>
           Beautiful design gets attention.<br />Strategic design does something with it.
@@ -201,9 +278,10 @@ export function ImpactContent({ visible }) {
       </section>
 
       <section className="impact-section impact-cta" aria-labelledby="impact-cta-heading">
-        <h2 id="impact-cta-heading" data-reveal>
-          What could a better online presence do for your business?
-        </h2>
+        <RevealText
+          id="impact-cta-heading"
+          text="What could a better online presence do for your business?"
+        />
         <p data-reveal>
           Tell us where your business is today and where you&apos;re trying to take it. We&apos;ll figure
           out what your digital presence needs to do to help you get there.
