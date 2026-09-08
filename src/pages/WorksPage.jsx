@@ -3,11 +3,13 @@ import { ContactContent } from "../components/ContactContent";
 import { PortfolioScene } from "../components/PortfolioScene";
 import { SiteHeader } from "../components/SiteHeader";
 import { InstagramCard } from "../components/InstagramCard";
+import { ImpactContent } from "../components/ImpactContent";
 
 export function WorksPage({ activePage, onOpenMenu, onOpenContact }) {
   const showingWorks = activePage === "works";
   const showingAbout = activePage === "about";
   const showingContact = activePage === "contact";
+  const showingImpact = activePage === "impact";
 
   return (
     <main className={`showcase studio-page is-${activePage}`}>
@@ -20,6 +22,7 @@ export function WorksPage({ activePage, onOpenMenu, onOpenContact }) {
       </div>
 
       <AboutContent visible={showingAbout} />
+      <ImpactContent visible={showingImpact} />
       <ContactContent visible={showingContact} onOpenForm={onOpenContact} />
       <InstagramCard />
     </main>

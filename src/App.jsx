@@ -3,7 +3,13 @@ import { LeadFormDialog } from "./components/LeadFormDialog";
 import { SiteMenu } from "./components/SiteMenu";
 import { WorksPage } from "./pages/WorksPage";
 
-const pages = new Set(["works", "about", "contact"]);
+const pages = new Set(["works", "about", "impact", "contact"]);
+
+const descriptions = {
+  impact:
+    "See how Searcha combines web design, development, search visibility, and digital strategy to create measurable business results.",
+  default: "Searcha — immersive digital experiences and high-impact websites.",
+};
 
 function getPageFromHash() {
   const page = window.location.hash.replace("#", "").toLowerCase();
@@ -11,7 +17,7 @@ function getPageFromHash() {
 }
 
 function App() {
-  const [activePage, setActivePage] = useState("works");
+  const [activePage, setActivePage] = useState(getPageFromHash);
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
@@ -19,15 +25,18 @@ function App() {
   const [showEnter, setShowEnter] = useState(false);
 
   useEffect(() => {
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}${window.location.search}#works`,
-    );
+    if (!window.location.hash || !pages.has(window.location.hash.slice(1).toLowerCase())) {
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}#works`,
+      );
+    }
 
     const handleHashChange = () => {
       setActivePage(getPageFromHash());
       window.scrollTo(0, 0);
+      window.requestAnimationFrame(() => document.querySelector(".showcase")?.scrollTo(0, 0));
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -36,6 +45,9 @@ function App() {
 
   useEffect(() => {
     document.title = `${activePage[0].toUpperCase()}${activePage.slice(1)} — Searcha`;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", descriptions[activePage] ?? descriptions.default);
   }, [activePage]);
 
   const openMenu = () => setMenuOpen(true);

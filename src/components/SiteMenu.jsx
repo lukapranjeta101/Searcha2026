@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const navigation = ["works", "about", "contact"];
+const navigation = ["works", "about", "impact", "contact"];
 
 export function SiteMenu({ open, activePage, onClose }) {
   const closeButton = useRef(null);

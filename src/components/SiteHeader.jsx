@@ -6,8 +6,11 @@ export function SiteHeader({ onOpenMenu, showViewSwitch = false }) {
       </a>
 
       {showViewSwitch && (
-        <div className="view-switch" aria-label="Current gallery view">
-          <span>My Work</span>
+        <div className="view-switch" aria-label="Studio statement">
+          <span className="view-switch-title">WEBSITES BUILT TO BE REMEMBERED.</span>
+          <span className="view-switch-subtitle">
+            Strategy, design &amp; development for businesses ready to stand out.
+          </span>
         </div>
       )}
 
